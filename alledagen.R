@@ -1,4 +1,4 @@
-#rm(list=ls())
+rm(list=ls())
 data1<-data.frame(`KNMI_20190501`)
 library(monomvn)
 data1$FHVEC[which(data1$FF>600,arr.ind = TRUE)]<-NA
@@ -157,15 +157,9 @@ polygon(c(times,rev(times)),c(allintervals[,1],rev(allintervals[,5])),col = "cor
 polygon(c(times,rev(times)),c(allintervals[,2],rev(allintervals[,4])),col = "cornsilk2", border = FALSE)
 lines(times, day_now, lwd = 0.1,col='black')
 
-#add red lines on borders of polygon
-lines(times, allintervals[,2], col="darkgrey",lty=2)
-lines(times,  allintervals[,4], col="darkgrey",lty=2)
-lines(times,  allintervals[,1], col="red",lty=2)
-lines(times,  allintervals[,5], col="red",lty=2)
-
 controle<-array(0,length(day_now))
 for (i in 1:(length(day_now)-1)){
-  if (day_now[i]>allintervals[i,1] & day_now[i]<allintervals[i,5]){
+  if (day_now[i]>allintervals[i,2] & day_now[i]<allintervals[i,4]){
     controle[i]=1
   }else{
     controle[i]=0

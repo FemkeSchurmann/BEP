@@ -1,9 +1,10 @@
 # library(astsa)
-  
-phi = 0.1
+rm(list=ls())  
+
+phi = -0.5
 sigma = 1
 n = seq(from=200,to=10000,by=200)
-b=n^0.5
+b=n^(0.33)
 m = 100
 
 totaal<-matrix(0,ncol=m,nrow=length(n))
@@ -29,6 +30,9 @@ totaalwith[,j]<-asvarswith
 
 #batchmeans
 bopti=floor((2*abs(phi)/(1-phi^2))^(2/3)*n^(1/3));
+
+bias<- 2*phi/((1-phi)*(1-phi^2)*bopti)
+
 
 experimentbatch<-function(n,b,k){
   bmasvar <- function(n, b, k, sigma, phi) {
@@ -101,17 +105,21 @@ colnames(totaalbatch)<-n
 
 par(mfrow=c(2,2))
 
-boxplot(totaalbatch, main = 'phi=0.1 - Batch means method')
+as.var.true = sigma^2/(1-phi)^2
+batchMSE<-mean((colMeans(totaalbatch)-as.var.true)^2)
+boxplot(totaalbatch, main = paste('phi=-0.5 - Batch means method,','MSE = ', round(batchMSE,digits=4) ),ylim=c(0,1))
+abline(h=as.var.true,col='red')
+
+blockMSE<-mean((colMeans(totaalblocks)-as.var.true)^2)
+boxplot(totaalblocks, main = paste('phi=-0.5 - Blocked means method,','MSE = ', round(blockMSE,digits=4) ),ylim=c(0,1))
 as.var.true = sigma^2/(1-phi)^2
 abline(h=as.var.true,col='red')
 
-boxplot(totaalblocks, main = 'phi=0.1 - Blocked means method')
-as.var.true = sigma^2/(1-phi)^2
+windowMSE<-mean((colMeans(totaal)-as.var.true)^2)
+boxplot(t(totaal), main = paste('phi=-0.5 - Without window estimator,','MSE = ', round(windowMSE,digits=4) ),ylim=c(0,1))
 abline(h=as.var.true,col='red')
 
-boxplot(t(totaal), main = 'phi=0.1 - Without window estimator')
-abline(h=as.var.true,col='red')
-
-boxplot(t(totaalwith), main = 'phi=0.1 - With window estimator')
+windowwithMSE<-mean((colMeans(totaalwith)-as.var.true)^2)
+boxplot(t(totaalwith), main = paste('phi=-0.5 - With window estimator,','MSE = ', round(windowwithMSE,digits=4) ),ylim=c(0,1))
 abline(h=as.var.true,col='red')
 
