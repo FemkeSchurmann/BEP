@@ -1,7 +1,7 @@
 rm(list=ls())
 
 sigma = 1
-phi=0.5
+phi=-0.5
 n=10000;
 bopti=floor((2*abs(phi)/(1-phi^2))^(2/3)*n^(1/3));
 assympvar<-sigma^2/(1-phi)^2
@@ -60,8 +60,8 @@ bias<- 2*phi/((1-phi)*(1-phi^2)*b)
 variance<-2/((1-phi)^4)*b/n
 
 layout(matrix(c(1,1,1,1,1,1,2,2), 4, 2, byrow = TRUE))
-par(mfrow=(c(2,1)))
-boxplot(totaal,main = paste('b0 = ',as.character(bopti),', optimal alpha = ', as.character(0.35)),xlab='Alpha', ylab='Estimator for asymptotic variance',ylim=c(0,20))
+par(mfrow=(c(1,1)))
+boxplot(totaal,main = paste('b0 = ',as.character(bopti),', optimal alpha = ', as.character(seq(from= 0, to = 1, by = 0.01)[36]), 'phi = 0.9'),xlab='Alpha', ylab='Estimator for asymptotic variance')
 abline(h=assympvar,col='red')
 plot(seq(from= 0, to = 1, by = 0.01),variance,col='blue',type='l',xlab='Alpha',ylab='Size of the Bias/Variance',main='Size of the Bias and Variance for different Alpha')
 lines(seq(from= 0, to = 1, by = 0.01),bias^2,type='l',col='red', xlab='Alpha',ylab='Size of the Bias^2/Variance')

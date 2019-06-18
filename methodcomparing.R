@@ -4,7 +4,7 @@ rm(list=ls())
 phi = -0.5
 sigma = 1
 n = seq(from=200,to=10000,by=200)
-b=n^(0.33)
+b=n^(0.35)
 m = 100
 
 totaal<-matrix(0,ncol=m,nrow=length(n))
